@@ -82,3 +82,11 @@ variables. Below is a complete list:
 - `ETCD_HOST`: The IP address of an already running node in the cluster. If
   this variable is set, the new node joins the existing cluster. If this
   variable is not set, the node starts a new cluster.
+
+# check if etcd is running as it should:
+curl -X PUT http://$MICROFLACK_IP:2379/v2/keys/services/monolith/location -d value="/api"
+curl -X PUT http://$MICROFLACK_IP:2379/v2/keys/services/monolith/upstream/server -d value="localhost:5000"
+../microflack_admin/bin/etcd-dump
+
+curl -X DELETE http://$MICROFLACK_IP:2379/v2/keys/services/monolith?recursive=true
+
