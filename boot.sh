@@ -18,5 +18,15 @@ else
     done
     ETCD_CLUSTER_STATE=existing
 fi
-echo etcd --name $ETCD_NAME --advertise-client-urls http://$MY_IP_ADDRESS:$ETCD_CLIENT_PORT --listen-client-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_CLIENT_PORT --initial-advertise-peer-urls http://$MY_IP_ADDRESS:$ETCD_PEER_PORT --listen-peer-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_PEER_PORT --initial-cluster-token $ETCD_CLUSTER_TOKEN --initial-cluster $ETCD_CLUSTER --initial-cluster-state $ETCD_CLUSTER_STATE
-exec etcd --name $ETCD_NAME --advertise-client-urls http://$MY_IP_ADDRESS:$ETCD_CLIENT_PORT --listen-client-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_CLIENT_PORT --initial-advertise-peer-urls http://$MY_IP_ADDRESS:$ETCD_PEER_PORT --listen-peer-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_PEER_PORT --initial-cluster-token $ETCD_CLUSTER_TOKEN --initial-cluster $ETCD_CLUSTER --initial-cluster-state $ETCD_CLUSTER_STATE
+
+#echo etcd --name $ETCD_NAME --advertise-client-urls http://$MY_IP_ADDRESS:$ETCD_CLIENT_PORT --listen-client-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_CLIENT_PORT --initial-advertise-peer-urls http://$MY_IP_ADDRESS:$ETCD_PEER_PORT --listen-peer-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_PEER_PORT --initial-cluster-token $ETCD_CLUSTER_TOKEN --initial-cluster $ETCD_CLUSTER --initial-cluster-state $ETCD_CLUSTER_STATE
+#exec etcd --name $ETCD_NAME --advertise-client-urls http://$MY_IP_ADDRESS:$ETCD_CLIENT_PORT --listen-client-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_CLIENT_PORT --initial-advertise-peer-urls http://$MY_IP_ADDRESS:$ETCD_PEER_PORT --listen-peer-urls http://$ETCD_LISTEN_IP_ADDRESS:$ETCD_PEER_PORT --initial-cluster-token $ETCD_CLUSTER_TOKEN --initial-cluster $ETCD_CLUSTER --initial-cluster-state $ETCD_CLUSTER_STATE
+
+cmd="/usr/local/bin/etcd 
+--data-dir=/etcd-data --name node1 
+--initial-advertise-peer-urls http://${ETCD_LISTEN_IP_ADDRESS}:$ETCD_PEER_PORT --listen-peer-urls http://${ETCD_LISTEN_IP_ADDRESS}:$ETCD_PEER_PORT 
+--advertise-client-urls http://${ETCD_LISTEN_IP_ADDRESS}:$ETCD_CLIENT_PORT --listen-client-urls http://${ETCD_LISTEN_IP_ADDRESS}:$ETCD_CLIENT_PORT 
+--initial-cluster node1=http://${ETCD_LISTEN_IP_ADDRESS}:$ETCD_PEER_PORT"
+
+exec $cmd
+
